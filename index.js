@@ -1,14 +1,15 @@
 // index.js
-import express from 'express';
+import express from "express";
 const app = express();
 
-app.get('/tarea-diaria', (_req, res) => {
-  console.log('Cron ejecutado:', new Date().toISOString());
-  res.sendStatus(200);
+// ✔️ Health-check liviano
+app.get("/", (_req, res) => res.type("text/plain").send("alive"));
+
+app.get("/tarea-diaria", (_req, res) => {
+  console.log("Cron ejecutado:", new Date().toISOString());
+  res.type("text/plain").send("OK");   // 2 bytes
 });
 
-const PORT = process.env.PORT || 3000;   // ⬅️  Render inyecta $PORT
-app.listen(PORT, '0.0.0.0', () =>        // ⬅️  ¡Importante! host 0.0.0.0
-  console.log(`Servidor en ${PORT}`)
-);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () => console.log(`Servidor en ${PORT}`));
 
